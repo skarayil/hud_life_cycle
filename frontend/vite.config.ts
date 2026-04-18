@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     return {
       // 'repo-adi' kısmını GitHub'daki deponun tam adıyla değiştir (örn: /nexus-hud/)
-      base: '/skarayil/hud_life_cycle/', 
+      base: '/hud_life_cycle/', 
       define: {
         'process.env.API_KEY' : JSON.stringify('api-key-ignore'),
       },
