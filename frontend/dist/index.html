@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="dark theme-black font-system">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUD - Lifecycle OS</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      safelist: [
+        'text-hud-cyan', 'text-hud-primary', 'bg-hud-panel', 'bg-hud-bg', 'border-hud-border', 'text-hud-text', 'text-hud-textMuted',
+        'bg-hud-cyanDim', 'bg-hud-alertDim', 'text-hud-alert',
+        'theme-cyan', 'theme-pink', 'theme-blue', 'theme-purple', 'theme-green', 'theme-red', 'theme-white', 'theme-black',
+        'font-inter', 'font-jetbrains-mono', 'font-fira-code', 'font-space-grotesk', 'font-orbitron', 'font-system',
+        'dark'
+      ],
+      theme: {
+        extend: {
+          colors: {
+            hud: {
+              bg: 'var(--hud-bg)',
+              panel: 'var(--hud-panel)',
+              border: 'var(--hud-border)',
+              primary: 'var(--hud-primary)',
+              primaryDim: 'var(--hud-primary-dim)',
+              cyan: 'var(--hud-primary)', /* Alias for backward compatibility */
+              cyanDim: 'var(--hud-primary-dim)',
+              alert: 'var(--hud-alert)',
+              alertDim: 'var(--hud-alert-dim)',
+              text: 'var(--hud-text)',
+              textMuted: 'var(--hud-text-muted)'
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+            'jetbrains-mono': ['"JetBrains Mono"', 'monospace'],
+            'fira-code': ['"Fira Code"', 'monospace'],
+            'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
+            orbitron: ['Orbitron', 'sans-serif'],
+            system: ['system-ui', 'sans-serif'],
+          },
+          fontSize: {
+            xs: ['calc(0.75rem * var(--font-scale))', { lineHeight: '1rem' }],
+            sm: ['calc(0.875rem * var(--font-scale))', { lineHeight: '1.25rem' }],
+            base: ['calc(1rem * var(--font-scale))', { lineHeight: '1.5rem' }],
+            lg: ['calc(1.125rem * var(--font-scale))', { lineHeight: '1.75rem' }],
+            xl: ['calc(1.25rem * var(--font-scale))', { lineHeight: '1.75rem' }],
+            '2xl': ['calc(1.5rem * var(--font-scale))', { lineHeight: '2rem' }],
+            '3xl': ['calc(1.875rem * var(--font-scale))', { lineHeight: '2.25rem' }],
+            '4xl': ['calc(2.25rem * var(--font-scale))', { lineHeight: '2.5rem' }],
+            '5xl': ['calc(3rem * var(--font-scale))', { lineHeight: '1' }],
+            '6xl': ['calc(3.75rem * var(--font-scale))', { lineHeight: '1' }],
+            '7xl': ['calc(4.5rem * var(--font-scale))', { lineHeight: '1' }],
+            '8xl': ['calc(6rem * var(--font-scale))', { lineHeight: '1' }],
+            '9xl': ['calc(8rem * var(--font-scale))', { lineHeight: '1' }],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --font-scale: 1;
+      --hud-bg: #ffffff;
+      --hud-panel: #f8fafc;
+      --hud-border: #e2e8f0;
+      --hud-text: #0f172a;
+      --hud-text-muted: #64748b;
+      --hud-alert: #e11d48;
+      --hud-alert-dim: rgba(225, 29, 72, 0.15);
+      --hud-primary: #0284c7;
+      --hud-primary-dim: rgba(2, 132, 199, 0.15);
+      --hud-primary-rgb: 2,132,199;
+    }
+    html.dark {
+      --hud-bg: #020617;
+      --hud-panel: rgba(15, 23, 42, 0.75);
+      --hud-border: #1e293b;
+      --hud-text: #f8fafc;
+      --hud-text-muted: #94a3b8;
+      --hud-alert: #ff003c;
+      --hud-alert-dim: rgba(255, 0, 60, 0.15);
+      --hud-primary: #00f0ff;
+      --hud-primary-dim: rgba(0, 240, 255, 0.15);
+      --hud-primary-rgb: 0,240,255;
+    }
+
+    /* Color Palettes (Light Mode) */
+    .theme-cyan { --hud-primary: #0284c7; --hud-primary-dim: rgba(2, 132, 199, 0.15); --hud-primary-rgb: 2,132,199; }
+    .theme-pink { --hud-primary: #d946ef; --hud-primary-dim: rgba(217, 70, 239, 0.15); --hud-primary-rgb: 217,70,239; }
+    .theme-blue { --hud-primary: #2563eb; --hud-primary-dim: rgba(37, 99, 235, 0.15); --hud-primary-rgb: 37,99,235; }
+    .theme-purple { --hud-primary: #9333ea; --hud-primary-dim: rgba(147, 51, 234, 0.15); --hud-primary-rgb: 147,51,234; }
+    .theme-green { --hud-primary: #16a34a; --hud-primary-dim: rgba(22, 163, 74, 0.15); --hud-primary-rgb: 22,163,74; }
+    .theme-red { --hud-primary: #dc2626; --hud-primary-dim: rgba(220, 38, 38, 0.15); --hud-primary-rgb: 220,38,38; }
+    .theme-white { --hud-primary: #0f172a; --hud-primary-dim: rgba(15, 23, 42, 0.15); --hud-primary-rgb: 15,23,42; }
+    .theme-black { --hud-primary: #000000; --hud-primary-dim: rgba(0, 0, 0, 0.15); --hud-primary-rgb: 0,0,0; }
+
+    html.dark.theme-cyan { --hud-primary: #00f0ff; --hud-primary-dim: rgba(0, 240, 255, 0.15); --hud-primary-rgb: 0,240,255; }
+    html.dark.theme-pink { --hud-primary: #ff00ff; --hud-primary-dim: rgba(255, 0, 255, 0.15); --hud-primary-rgb: 255,0,255; }
+    html.dark.theme-blue { --hud-primary: #3b82f6; --hud-primary-dim: rgba(59, 130, 246, 0.15); --hud-primary-rgb: 59,130,246; }
+    html.dark.theme-purple { --hud-primary: #c084fc; --hud-primary-dim: rgba(192, 132, 252, 0.15); --hud-primary-rgb: 192,132,252; }
+    html.dark.theme-green { --hud-primary: #4ade80; --hud-primary-dim: rgba(74, 222, 128, 0.15); --hud-primary-rgb: 74,222,128; }
+    html.dark.theme-red { --hud-primary: #fb7185; --hud-primary-dim: rgba(251, 113, 133, 0.15); --hud-primary-rgb: 251,113,133; }
+    html.dark.theme-white { --hud-primary: #f8fafc; --hud-primary-dim: rgba(248, 250, 252, 0.15); --hud-primary-rgb: 248,250,252; }
+    html.dark.theme-black { --hud-primary: #94a3b8; --hud-primary-dim: rgba(148, 163, 184, 0.15); --hud-primary-rgb: 148,163,184; }
+
+    body {
+      background-color: var(--hud-bg);
+      color: var(--hud-text);
+      overflow: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Custom Scrollbar for HUD feel */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--hud-border);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--hud-primary);
+    }
+  </style>
+    <script type="module" crossorigin src="/assets/index--uy5_pyz.js"></script>
+  </head>
+<body>
+  <div id="root"></div></body>
+</html>
