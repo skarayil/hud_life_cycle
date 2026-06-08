@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import logoUrl from '../assets/logo.png';
+
 interface BrandLogoProps {
   className?: string;
 }
@@ -8,7 +10,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className = '' }) => {
     <div className={`relative flex items-center justify-center h-12 ${className}`}>
       {!imgFailed && (
         <img
-          src="/logo.png"
+          src={logoUrl}
           alt="HUD Brand Logo"
           className="h-full w-auto object-contain z-10"
           style={{ filter: 'drop-shadow(0 0 8px var(--hud-primary))' }}
